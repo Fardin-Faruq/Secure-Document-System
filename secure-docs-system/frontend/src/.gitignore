@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+instance/
+uploads/
+encrypted_files/
+
+# Node / React
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
