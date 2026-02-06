@@ -6,15 +6,35 @@ function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('viewer');
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   
   const { login, register } = useAuth();
 
+  // Validate input before submission
+  const validateInput = () => {
+    if (username.length < 3) {
+      setMessage('Username must be at least 3 characters');
+      setMessageType('error');
+      return false;
+    }
+    
+    if (password.length < 8) {
+      setMessage('Password must be at least 8 characters');
+      setMessageType('error');
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+
+    if (!validateInput()) {
+      return;
+    }
 
     if (isLogin) {
       const result = await login(username, password);
@@ -23,7 +43,8 @@ function Login() {
         setMessageType('error');
       }
     } else {
-      const result = await register(username, password, role);
+      // Registration - role is NOT sent, backend will set it to 'viewer'
+      const result = await register(username, password);
       setMessage(result.message);
       setMessageType(result.success ? 'success' : 'error');
       
@@ -32,7 +53,7 @@ function Login() {
           setIsLogin(true);
           setMessage('');
           setPassword('');
-        }, 2000);
+        }, 3000);
       }
     }
   };
@@ -40,7 +61,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1>🔐 Secure Document System</h1>
+        <h1>🔒 Secure Document System</h1>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         
         <form onSubmit={handleSubmit}>
@@ -51,7 +72,8 @@ function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Enter username"
+              placeholder="Enter username (min 3 characters)"
+              minLength="3"
             />
           </div>
 
@@ -62,18 +84,16 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="Enter password"
+              placeholder="Enter password (min 8 characters)"
+              minLength="8"
             />
           </div>
 
+          {/* ✅ REMOVED: Role selection dropdown - users are auto-assigned 'viewer' role */}
           {!isLogin && (
-            <div className="form-group">
-              <label>Role:</label>
-              <select value={role} onChange={(e) => setRole(e.target.value)}>
-                <option value="viewer">Viewer (Read Only)</option>
-                <option value="editor">Editor (Read & Upload)</option>
-                <option value="admin">Admin (Full Access)</option>
-              </select>
+            <div className="info-message">
+              <p>ℹ️ New accounts are created with <strong>Viewer</strong> permissions by default.</p>
+              <p>Contact an admin to request Editor or Admin role upgrades.</p>
             </div>
           )}
 
@@ -93,6 +113,7 @@ function Login() {
           <span onClick={() => {
             setIsLogin(!isLogin);
             setMessage('');
+            setMessageType('');
           }}>
             {isLogin ? 'Register' : 'Login'}
           </span>
@@ -100,9 +121,18 @@ function Login() {
 
         <div className="demo-accounts">
           <p><strong>Demo Accounts:</strong></p>
-          <p>Admin: admin / admin123</p>
-          <p>Editor: editor / editor123</p>
-          <p>Viewer: viewer / viewer123</p>
+          <p>👤 Admin: admin / admin123</p>
+          <p>✏️ Editor: editor / editor123</p>
+          <p>👁️ Viewer: viewer / viewer123</p>
+        </div>
+
+        <div className="role-info">
+          <p><strong>Role Permissions:</strong></p>
+          <ul>
+            <li><strong>Viewer:</strong> Can view and download all documents</li>
+            <li><strong>Editor:</strong> Can view, download, upload new documents, and edit their own documents (version control)</li>
+            <li><strong>Admin:</strong> Full access - can manage all documents, users, and system settings</li>
+          </ul>
         </div>
       </div>
     </div>

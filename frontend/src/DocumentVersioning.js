@@ -8,17 +8,39 @@ function DocumentVersioning({ documentId, token, userRole, documentOwnerId, user
   const [messageType, setMessageType] = useState('');
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState('');
+  const [canEdit, setCanEdit] = useState(false);
+  const [permissionsLoading, setPermissionsLoading] = useState(true);
 
   const API_URL = 'http://localhost:5000/api';
   const headers = { Authorization: `Bearer ${token}` };
 
-  // Check if user can edit
-  const canEdit = userRole === 'admin' || (userRole === 'editor' && userId === documentOwnerId);
   const isAdmin = userRole === 'admin';
 
   useEffect(() => {
+    checkEditPermission();
     fetchVersions();
   }, [documentId]);
+
+  const checkEditPermission = async () => {
+    try {
+      // Try to get the document - if backend allows the update endpoint, user can edit
+      setPermissionsLoading(true);
+      // For now, assume role-based + check will happen on submit
+      // Admin or owner can always edit
+      if (userRole === 'admin' || userId === documentOwnerId) {
+        setCanEdit(true);
+      } else {
+        // For non-owner, non-admin users, backend will check file-level permissions on submit
+        // We'll allow them to try and show backend error if they don't have permission
+        setCanEdit(false);
+      }
+      setPermissionsLoading(false);
+    } catch (error) {
+      console.error('Error checking permissions:', error);
+      setCanEdit(false);
+      setPermissionsLoading(false);
+    }
+  };
 
   const fetchVersions = async () => {
     try {
@@ -111,12 +133,11 @@ function DocumentVersioning({ documentId, token, userRole, documentOwnerId, user
 
       {!canEdit && !isAdmin && (
         <div className="permission-warning">
-          <p>⚠️ You do not have permission to edit this document. Only the owner and admins can update versions.</p>
+          <p>⚠️ You may not have permission to edit this document. Only the owner, admins, and users with explicit file permissions can update versions.</p>
         </div>
       )}
 
-      {(canEdit || isAdmin) && (
-        <form onSubmit={handleUpdateDocument} className="update-form">
+      <form onSubmit={handleUpdateDocument} className="update-form">
           <input
             type="file"
             onChange={handleFileChange}
@@ -133,7 +154,6 @@ function DocumentVersioning({ documentId, token, userRole, documentOwnerId, user
             {loading ? 'Updating...' : 'Update Document'}
           </button>
         </form>
-      )}
 
       {message && <div className={`message ${messageType}`}>{message}</div>}
 

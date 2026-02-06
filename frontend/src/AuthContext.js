@@ -51,12 +51,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, password, role) => {
+  // ✅ UPDATED: Register function no longer accepts or sends 'role' parameter
+  const register = async (username, password) => {
     try {
       const response = await axios.post(`${API_URL}/register`, {
         username,
-        password,
-        role
+        password
+        // ✅ role is NOT sent - backend automatically assigns 'viewer'
       });
       return { success: true, message: response.data.message };
     } catch (error) {

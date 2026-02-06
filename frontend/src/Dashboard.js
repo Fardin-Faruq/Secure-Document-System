@@ -5,6 +5,7 @@ import DocumentVersioning from './DocumentVersioning';
 import DocumentSharing from './DocumentSharing';
 import DocumentViewer from './DocumentViewer';
 import ActivityDashboard from './ActivityDashboard';
+import AdminUserManagement from './AdminUserManagement';
 import axios from 'axios';
 import './Dashboard.css';
 
@@ -217,19 +218,6 @@ function Dashboard() {
     }
   };
 
-  const getRolePermissions = (role) => {
-    switch(role) {
-      case 'admin':
-        return ['View Documents', 'Upload Documents', 'Delete Documents', 'View Access Logs'];
-      case 'editor':
-        return ['View Documents', 'Upload Documents'];
-      case 'viewer':
-        return ['View Documents', 'Download Documents'];
-      default:
-        return [];
-    }
-  };
-
   const canUpload = user?.role === 'admin' || user?.role === 'editor';
   const canDelete = user?.role === 'admin';
 
@@ -250,15 +238,6 @@ function Dashboard() {
           <h2>Welcome, {user?.username}!</h2>
           <div className="role-badge" style={{ backgroundColor: getRoleColor(user?.role) }}>
             {user?.role?.toUpperCase()}
-          </div>
-          
-          <div className="permissions">
-            <h3>Your Permissions:</h3>
-            <ul>
-              {getRolePermissions(user?.role).map((permission, index) => (
-                <li key={index}>✓ {permission}</li>
-              ))}
-            </ul>
           </div>
 
           <div className="timezone-info">
@@ -281,6 +260,14 @@ function Dashboard() {
               onClick={() => setActiveTab('logs')}
             >
               📊 Activity Logs
+            </button>
+          )}
+          {user?.role === 'admin' && (
+            <button
+              className={`tab ${activeTab === 'users' ? 'active' : ''}`}
+              onClick={() => setActiveTab('users')}
+            >
+              👥 User Management
             </button>
           )}
         </div>
@@ -374,6 +361,10 @@ function Dashboard() {
 
         {activeTab === 'logs' && canDelete && (
           <ActivityDashboard token={localStorage.getItem('token')} />
+        )}
+
+        {activeTab === 'users' && user?.role === 'admin' && (
+          <AdminUserManagement token={localStorage.getItem('token')} currentUser={user} />
         )}
       </div>
 

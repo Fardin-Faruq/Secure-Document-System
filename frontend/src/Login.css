@@ -3,100 +3,142 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
 }
 
 .login-box {
   background: white;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 48px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .login-box h1 {
   text-align: center;
-  color: #333;
-  margin-bottom: 10px;
-  font-size: 24px;
+  color: #2d3748;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
 }
 
 .login-box h2 {
   text-align: center;
-  color: #667eea;
-  margin-bottom: 30px;
-  font-size: 28px;
+  color: #4a5568;
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #333;
+  color: #2d3748;
   font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.2px;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 11px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
   font-size: 14px;
-  transition: border-color 0.3s;
+  transition: all 0.2s ease;
   box-sizing: border-box;
+  background-color: #f7fafc;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
   border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* ✅ NEW: Info message styling */
+.info-message {
+  background-color: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+}
+
+.info-message p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #004085;
+  line-height: 1.5;
+}
+
+.info-message strong {
+  color: #667eea;
+  font-weight: 600;
 }
 
 .submit-btn {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 12px 20px;
+  background: #667eea;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
 }
 
 .submit-btn:hover {
-  transform: translateY(-2px);
+  background: #5568d3;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
 }
 
 .message {
-  padding: 12px;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border-radius: 6px;
   margin-bottom: 15px;
   text-align: center;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .message.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #dcfce7;
 }
 
 .message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fee2e2;
 }
 
 .toggle-text {
   text-align: center;
   margin-top: 20px;
   color: #666;
+  font-size: 14px;
 }
 
 .toggle-text span {
@@ -110,18 +152,107 @@
 }
 
 .demo-accounts {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  font-size: 12px;
+  margin-top: 24px;
+  padding: 14px 16px;
+  background-color: #f7fafc;
+  border-radius: 6px;
+  font-size: 11px;
+  border: 1px solid #e2e8f0;
 }
 
 .demo-accounts p {
-  margin: 5px 0;
-  color: #666;
+  margin: 4px 0;
+  color: #4a5568;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .demo-accounts strong {
+  color: #2d3748;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ✅ NEW: Role information section */
+.role-info {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #fff8e1;
+  border-radius: 8px;
+  border: 1px solid #ffecb3;
+}
+
+.role-info p {
+  margin: 0 0 10px 0;
   color: #333;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.role-info ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.role-info li {
+  margin: 8px 0;
+  color: #555;
+  font-size: 12px;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 5px;
+}
+
+.role-info li::before {
+  content: "•";
+  color: #667eea;
+  font-weight: bold;
+  position: absolute;
+  left: -15px;
+}
+
+.role-info strong {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* Scrollbar styling for login box */
+.login-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.login-box::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.login-box::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.login-box::-webkit-scrollbar-thumb:hover {
+  background: #5568d3;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 30px 20px;
+  }
+
+  .login-box h1 {
+    font-size: 20px;
+  }
+
+  .login-box h2 {
+    font-size: 24px;
+  }
+
+  .info-message p,
+  .role-info li {
+    font-size: 12px;
+  }
 }

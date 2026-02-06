@@ -68,7 +68,7 @@ function DocumentPermissions({ documentId, token }) {
 
     try {
       await axios.delete(
-        `${API_URL}/documents/${documentId}/permissions/${userId}`,
+        `${API_URL}/documents/${documentId}/permissions/user/${userId}`,
         { headers }
       );
       setMessage('Permission revoked!');
